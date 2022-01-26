@@ -33,8 +33,8 @@ jobs:
       run: terraform fmt -check
 
     - name: Terraform Init
-        id: init
-        run: terraform init
+      id: init
+      run: terraform init
 
     - name: Terraform Validate
       id: validate
