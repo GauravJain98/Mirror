@@ -33,8 +33,8 @@ jobs:
         ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
         ECR_REPOSITORY: bitcoin-core
       run: | # not using commit SHA as remote backend for terraform doesn't allow env variables unless they are throught the terraform cloud but it should be used  
-        docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$latest code 
-        docker push $ECR_REGISTRY/$ECR_REPOSITORY:$latest
+        docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:latest code 
+        docker push $ECR_REGISTRY/$ECR_REPOSITORY:latest
   terraform:
     name: 'Terraform'
     runs-on: ubuntu-latest
