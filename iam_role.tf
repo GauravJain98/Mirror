@@ -40,6 +40,11 @@ resource "aws_iam_role_policy_attachment" "cloud_policy" {
   policy_arn = aws_iam_policy.ECSCloudWatchPolicy.arn
 }
 
+resource "aws_iam_role_policy_attachment" "ecr_policy" {
+  role       = aws_iam_role.TaskExecutionRole.name
+  policy_arn = "arn:aws:iam::aws:policy/service-role/AmazonEC2ContainerServiceforEC2Role"
+}
+
 resource "aws_iam_role_policy_attachment" "ecsTaskExecutionRole_policy" {
   role       = aws_iam_role.TaskExecutionRole.name
   policy_arn = "arn:aws:iam::aws:policy/service-role/AmazonECSTaskExecutionRolePolicy"

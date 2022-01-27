@@ -22,7 +22,7 @@ resource "aws_ecs_task_definition" "bitcoin_task" {
   container_definitions = jsonencode([
     {
       "name" : "bitcoin-task",
-      "image" : "362197681756.dkr.ecr.ap-south-1.amazonaws.com/bitcoin-core:latest",
+      "image" : "464624470219.dkr.ecr.ap-south-1.amazonaws.com/bitcoin-core:latest",
       "essential" : true,
 
       "portMappings" : [
