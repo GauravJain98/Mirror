@@ -22,13 +22,13 @@ resource "aws_ecs_task_definition" "bitcoin_task" {
   container_definitions = jsonencode([
     {
       "name" : "bitcoin-task",
-      "image" : "ruimarinho/bitcoin-core",
+      "image" : "362197681756.dkr.ecr.ap-south-1.amazonaws.com/bitcoin-core:latest",
       "essential" : true,
 
       "portMappings" : [
         {
-          "containerPort" : 18443,
-          "hostPort" : 18443
+          "containerPort" : 18332,
+          "hostPort" : 18332
         }
       ],
       "mountPoints" : [

@@ -8,6 +8,33 @@ on:
   pull_request:
 
 jobs:
+  docker_build_push:
+    name: Build Image
+    runs-on: ubuntu-latest
+
+    steps:
+
+    - name: Check out code
+      uses: actions/checkout@v2
+    
+    - name: Configure AWS credentials
+      uses: aws-actions/configure-aws-credentials@v1
+      with:
+        aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+        aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        aws-region: ap-south-1
+
+    - name: Login to Amazon ECR
+      id: login-ecr
+      uses: aws-actions/amazon-ecr-login@v1
+
+    - name: Build, tag, and push image to Amazon ECR
+      env:
+        ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
+        ECR_REPOSITORY: bitcoin-core
+      run: | # not using commit SHA as remote backend for terraform doesn't allow env variables unless they are throught the terraform cloud but it should be used  
+        docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$latest code 
+        docker push $ECR_REGISTRY/$ECR_REPOSITORY:$latest
   terraform:
     name: 'Terraform'
     runs-on: ubuntu-latest
@@ -40,6 +67,9 @@ jobs:
       id: validate
       run: terraform validate -no-color
 
+    # this is required as the container need a lock on the efs storage which will not be released unless the container is stopped 
+    - name: Remove Existing ECS
+      run: terraform destroy --target aws_ecs_service.bitcoin_server --target aws_ecs_task_definition.bitcoin_task --auto-approve
 
     # Generates an execution plan for Terraform
     - name: Terraform Apply
