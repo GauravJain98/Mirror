@@ -34,7 +34,7 @@ RUN set -ex \
 ENV BITCOIN_VERSION=0.21.0
 ENV BITCOIN_PREFIX=/opt/bitcoin-${BITCOIN_VERSION}
 
-RUN wget https://bitcoincore.org/bin/bitcoin-core-0.21.0/SHA256SUMS.asc
+RUN wget https://bitcoincore.org/bin/bitcoin-core-${BITCOIN_VERSION}/SHA256SUMS.asc
 RUN wget https://bitcoincore.org/bin/bitcoin-core-${BITCOIN_VERSION}/bitcoin-${BITCOIN_VERSION}.tar.gz
 RUN gpg --verify SHA256SUMS.asc
 RUN grep " bitcoin-${BITCOIN_VERSION}.tar.gz\$" SHA256SUMS.asc | sha256sum -c -
@@ -77,10 +77,17 @@ RUN apk update && apk --no-cache add \
   libzmq \
   su-exec
 
-#
+# 
 # Expose the port for the RPC interface
-#
+# 
 EXPOSE 18332/tcp
+
+# 
+# Add volume for local runnning 
+# 
+VOLUME ["/home/bitcoin/.bitcoin"]
+
+RUN bitcoind -version | grep "Bitcoin Core version v${BITCOIN_VERSION}"
 
 #
 # Start the bitcoin server
