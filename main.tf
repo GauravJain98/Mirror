@@ -17,7 +17,7 @@ resource "aws_ecs_service" "bitcoin_service" {
 }
 
 resource "aws_ecs_task_definition" "bitcoin_task" {
-  family = "${var.name}-task" 
+  family = "${var.name}-task"
   container_definitions = jsonencode([
     {
       "name" : "bitcoin-task",
