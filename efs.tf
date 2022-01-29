@@ -1,3 +1,4 @@
+#  Presistent storage used for data storage
 resource "aws_efs_file_system" "efs" {
   encrypted = true
   tags = {
@@ -5,6 +6,7 @@ resource "aws_efs_file_system" "efs" {
   }
 }
 
+# EFS Mounting 
 resource "aws_efs_mount_target" "mount_a" {
   file_system_id  = aws_efs_file_system.efs.id
   subnet_id       = aws_default_subnet.default_subnet_a.id

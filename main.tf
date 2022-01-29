@@ -2,7 +2,6 @@ resource "aws_ecs_cluster" "xapo_cluster" {
   name = var.cluster_name # Naming the cluster
 }
 
-
 resource "aws_ecs_service" "bitcoin_service" {
   name            = "${var.name}-service"                    # Naming our first service
   cluster         = aws_ecs_cluster.xapo_cluster.id          # Referencing our created Cluster
@@ -18,7 +17,7 @@ resource "aws_ecs_service" "bitcoin_service" {
 }
 
 resource "aws_ecs_task_definition" "bitcoin_task" {
-  family = "${var.name}-task" # Naming our first task
+  family = "${var.name}-task" 
   container_definitions = jsonencode([
     {
       "name" : "bitcoin-task",
@@ -50,6 +49,7 @@ resource "aws_ecs_task_definition" "bitcoin_task" {
       "cpu" : 256
     }
   ])
+  # Attach volumne
   volume {
     name = "efs-volumne"
     efs_volume_configuration {

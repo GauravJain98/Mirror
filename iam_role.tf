@@ -1,3 +1,4 @@
+# IAM Used by ecs
 data "aws_iam_policy_document" "assume_role_policy" {
   statement {
     actions = ["sts:AssumeRole"]
@@ -8,7 +9,7 @@ data "aws_iam_policy_document" "assume_role_policy" {
     }
   }
 }
-
+# Policy to push logs to cloud watch
 resource "aws_iam_policy" "ECSCloudWatchPolicy" {
   name = "ECSCloudWatchPolicy-381966"
 
@@ -30,11 +31,13 @@ resource "aws_iam_policy" "ECSCloudWatchPolicy" {
   })
 }
 
+# IAM Role for task execution
 resource "aws_iam_role" "TaskExecutionRole" {
   name               = "TaskExecutionRole"
   assume_role_policy = data.aws_iam_policy_document.assume_role_policy.json
 }
 
+# Attachment of the required policies to task execution role
 resource "aws_iam_role_policy_attachment" "cloud_policy" {
   role       = aws_iam_role.TaskExecutionRole.name
   policy_arn = aws_iam_policy.ECSCloudWatchPolicy.arn
