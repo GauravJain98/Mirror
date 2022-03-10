@@ -2,7 +2,7 @@ terraform {
   backend "remote" {
     organization = "example-org-ca4fae"
     workspaces {
-      name = "xapo"
+      name = "org"
     }
   }
 

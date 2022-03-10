@@ -1,10 +1,10 @@
-resource "aws_ecs_cluster" "xapo_cluster" {
+resource "aws_ecs_cluster" "cluster" {
   name = var.cluster_name # Naming the cluster
 }
 
 resource "aws_ecs_service" "bitcoin_service" {
   name            = "${var.name}-service"                    # Naming our first service
-  cluster         = aws_ecs_cluster.xapo_cluster.id          # Referencing our created Cluster
+  cluster         = aws_ecs_cluster.cluster.id               # Referencing our created Cluster
   task_definition = aws_ecs_task_definition.bitcoin_task.arn # Referencing the task our service will spin up
   launch_type     = "FARGATE"
   desired_count   = 1 # Setting the number of containers to 1

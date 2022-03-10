@@ -6,7 +6,7 @@ variable "region" {
 
 variable "cluster_name" {
   type    = string
-  default = "xapo-prod-cluster"
+  default = "cluster"
 }
 
 variable "name" {
